@@ -1,0 +1,39 @@
+ <?php
+// Import PHPMailer classes
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'path/to/PHPMailer/src/Exception.php';
+require 'path/to/PHPMailer/src/PHPMailer.php';
+require 'path/to/PHPMailer/src/SMTP.php';
+
+// Create an instance
+$mail = new PHPMailer(true);
+
+try {
+    // Server settings
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';  // SMTP server
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'your@gmail.com';  // Your Gmail
+    $mail->Password   = 'your-app-password';  // App password (not your regular password)
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  // Enable TLS encryption
+    $mail->Port       = 465;  // TCP port to connect to
+
+    // Recipients
+    $mail->setFrom('your@gmail.com', 'Your Name');
+    $mail->addAddress('recipient@example.com', 'Recipient Name');
+
+    // Content
+    $mail->isHTML(true);  // Set email format to HTML
+    $mail->Subject = 'Automatic Email from PHP';
+    $mail->Body    = '<b>This is an HTML email body</b>';
+    $mail->AltBody = 'This is the plain text version for non-HTML mail clients';
+
+    $mail->send();
+    echo 'Email has been sent!';
+} catch (Exception $e) {
+    echo "Email could not be sent. Error: {$mail->ErrorInfo}" ;
+}
+?>
